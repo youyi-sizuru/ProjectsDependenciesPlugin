@@ -1,0 +1,61 @@
+apply plugin: 'maven-publish'
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'java-gradle-plugin'
+sourceSets {
+    main {
+        java {
+            srcDirs += []
+        }
+        kotlin {
+            srcDirs += ['src/main/kotlin', 'src/main/java']
+        }
+    }
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = JavaVersion.VERSION_1_8
+}
+
+dependencies {
+    implementation gradleApi()
+    implementation 'com.android.tools.build:gradle:4.2.2'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+}
+
+version = "1.0.0.SNAPSHOT"
+
+task sourceJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from sourceSets.main.java.srcDirs
+}
+
+publishing {
+    publications {
+        precheck(MavenPublication) {
+            groupId 'com.lifefighter.dependencies'
+            version = project.version
+            artifactId project.getProject().getName()
+            from components.java
+            artifact sourceJar
+        }
+    }
+    repositories {
+        mavenLocal()
+    }
+}
+gradlePlugin {
+    plugins {
+        SettingsConfig {
+            id = 'com.lifefighter.dependencies.settings'
+            implementationClass = 'com.lifefighter.dependencies.printer.DependenciesSettingsPlugin'
+        }
+        ProjectConfig {
+            id = 'com.lifefighter.dependencies.printer'
+            implementationClass = 'com.lifefighter.dependencies.printer.DependenciesProjectPlugin'
+        }
+    }
+}

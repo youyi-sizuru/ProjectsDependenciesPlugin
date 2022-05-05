@@ -1,0 +1,28 @@
+
+buildscript {
+    ext.kotlin_version = '1.5.30'
+    repositories {
+        mavenLocal()
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath 'com.android.tools.build:gradle:4.2.2'
+//        classpath "com.lifefighter.dependencies:printer:1.0.0.SNAPSHOT"
+    }
+}
+//apply plugin: 'com.lifefighter.dependencies.printer'
+
+allprojects {
+    repositories {
+        mavenLocal()
+        google()
+        mavenCentral()
+    }
+}
+
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}

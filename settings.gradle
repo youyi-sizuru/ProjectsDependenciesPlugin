@@ -1,0 +1,13 @@
+//pluginManagement {
+//    repositories {
+//        mavenLocal()
+//        google()
+//        mavenCentral()
+//    }
+//}
+//plugins {
+//    id 'com.lifefighter.dependencies.settings' version '1.0.0.SNAPSHOT'
+//}
+rootProject.name = "ProjectsDependenciesPlugin"
+include ':app'
+include ':printer'
